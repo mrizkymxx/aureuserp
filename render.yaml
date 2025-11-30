@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: aureuserp
+    runtime: php
+    plan: free
+    buildCommand: composer install --no-dev --optimize-autoloader && npm ci && npm run build
+    startCommand: php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
+    envVars:
+      - key: APP_NAME
+        value: AureusERP
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        value: https://aureuserp.onrender.com
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: FILESYSTEM_DISK
+        value: public
+      - key: MAIL_MAILER
+        value: log
+      - key: LOG_LEVEL
+        value: info
+
+databases:
+  - name: aureuserp-db
+    plan: free
+    databaseName: aureuserp
+    user: aureuserp
